@@ -7,10 +7,11 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate && prisma db push && prisma db seed"
+    "postinstall": "prisma generate && prisma db push"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
+    "prisma": "^6.6.0",
     "@radix-ui/react-dialog": "^1.1.11",
     "autoprefixer": "^10.4.20",
     "bcryptjs": "^3.0.2",
@@ -36,6 +37,6 @@
     "typescript": "^5"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.cjs"
   }
 }
