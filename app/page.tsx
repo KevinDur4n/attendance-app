@@ -14,7 +14,7 @@ const attendanceSchema = z.object({
   count: z
     .number({ invalid_type_error: "Selecciona una cantidad válida" })
     .min(1, "Debe ser al menos 1")
-    .max(15, "Máximo 15 personas"),
+    .max(10, "Máximo 10 personas"),
 });
 
 const MAP_URL = "https://maps.app.goo.gl/JyUuTaohAwB2wqWr8";
@@ -98,59 +98,70 @@ export default function Home() {
       {/* Formulario de confirmación o mensaje de éxito */}
       <div className="w-full max-w-md mx-auto z-10">
         {!success ? (
-          <form
-            onSubmit={handleSubmit}
-            className="bg-black/90 border-2 border-amber-500 rounded-xl p-8 flex flex-col gap-6 shadow-lg"
-            autoComplete="off"
-          >
-            <h2 className="text-3xl font-bold text-amber-400 mb-2 text-center">
-              Confirma tu asistencia
-            </h2>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="name" className="text-lg text-white text-left">
-                Nombre
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                value={form.name}
-                onChange={handleChange}
-                className="rounded-md px-4 py-2 bg-slate-900 text-white border border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-400 text-lg"
-                placeholder="Tu nombre completo"
-                autoComplete="off"
-                required
-                pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
-                minLength={1}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="count" className="text-lg text-white text-left">
-                ¿Cuántas personas (incluyéndote)?
-              </label>
-              <select
-                id="count"
-                name="count"
-                value={form.count}
-                onChange={handleChange}
-                className="rounded-md px-4 py-2 bg-slate-900 text-white border border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-400 text-lg"
-                required
-              >
-                {Array.from({ length: 15 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <Button
-              type="submit"
-              className="mt-4 bg-gradient-to-r from-amber-500 to-yellow-300 hover:from-amber-600 hover:to-yellow-400 text-black border-2 border-amber-300 text-xl font-semibold py-3"
-              disabled={submitting}
+          <>
+            <form
+              onSubmit={handleSubmit}
+              className="bg-black/90 border-2 border-amber-500 rounded-xl p-8 flex flex-col gap-6 shadow-lg"
+              autoComplete="off"
             >
-              {submitting ? "Enviando..." : "Confirmar asistencia"}
+              <h2 className="text-3xl font-bold text-amber-400 mb-2 text-center">
+                Confirma tu asistencia
+              </h2>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="name" className="text-lg text-white text-left">
+                  Familia o nombre de invitado
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={form.name}
+                  onChange={handleChange}
+                  className="rounded-md px-4 py-2 bg-slate-900 text-white border border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-400 text-lg"
+                  placeholder="Escribe tu nombre o el de tu familia"
+                  autoComplete="off"
+                  required
+                  pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
+                  minLength={1}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="count" className="text-lg text-white text-left">
+                  ¿Cuántas personas (incluyéndote)?
+                </label>
+                <select
+                  id="count"
+                  name="count"
+                  value={form.count}
+                  onChange={handleChange}
+                  className="rounded-md px-4 py-2 bg-slate-900 text-white border border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-400 text-lg"
+                  required
+                >
+                  {Array.from({ length: 10 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <Button
+                type="submit"
+                className="mt-4 bg-gradient-to-r from-amber-500 to-yellow-300 hover:from-amber-600 hover:to-yellow-400 text-black border-2 border-amber-300 text-xl font-semibold py-3"
+                disabled={submitting}
+              >
+                {submitting ? "Enviando..." : "Confirmar asistencia"}
+              </Button>
+            </form>
+            <div className="flex justify-center mt-4">
+              <Button
+              onClick={handleMap}
+              className=" w-full bg-gradient-to-r from-amber-500 to-yellow-300 hover:from-amber-600 hover:to-yellow-400 text-black border-2 border-amber-300 text-xl font-semibold py-3 animate-vibrate"
+            >
+              <MapPin className="mr-2" /> Ubicación
             </Button>
-          </form>
+            </div>
+            
+          </>
         ) : (
           <div className="flex flex-col items-center gap-6 bg-black/90 border-2 border-amber-500 rounded-xl p-8 shadow-lg">
             <h2 className="text-3xl font-bold text-amber-400 mb-2 text-center">
